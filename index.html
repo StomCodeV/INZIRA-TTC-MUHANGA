@@ -1,0 +1,2109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#070d0a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="description" content="INZIRA — TTC Muhanga Internship Movement Tracker. Paperless daily exit and return tracking for interns. Genda · Garuka · Wandike.">
+<title>INZIRA · TTC Muhanga — Internship Movement Tracker</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   1. TOKENS
+   ============================================================ */
+:root{
+  --bg:#070d0a;
+  --bg-2:#0b1116;
+  --surface:rgba(14,26,20,.72);
+  --surface-2:rgba(255,255,255,.045);
+  --surface-3:rgba(255,255,255,.075);
+  --line:rgba(255,255,255,.11);
+  --line-2:rgba(255,255,255,.2);
+  --green:#4CAF50;
+  --green-2:#47a355;
+  --green-3:#2b6a35;
+  --green-soft:rgba(76,175,80,.16);
+  --yellow:#FAD201;
+  --yellow-soft:rgba(250,210,1,.1);
+  --text:#e9f2ec;
+  --text-2:#b6cbbf;
+  --text-3:#7d9a8a;
+  --danger:#f87171;
+  --r-sm:12px;
+  --r:16px;
+  --r-lg:24px;
+  --shadow:0 10px 34px rgba(0,0,0,.5);
+  --shadow-lg:0 28px 80px rgba(0,0,0,.6);
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --max:1160px;
+}
+
+/* ============================================================
+   2. RESET / BASE
+   ============================================================ */
+*{-webkit-tap-highlight-color:transparent;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  color:var(--text);
+  font-family:'Inter','Segoe UI',system-ui,-apple-system,Roboto,sans-serif;
+  font-size:16px;
+  line-height:1.55;
+  background:var(--bg);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+img,svg{display:block;max-width:100%}
+a{color:var(--yellow);text-decoration:none;transition:color .2s}
+a:hover{color:#ffe740}
+button{font-family:inherit;cursor:pointer}
+h1,h2,h3,h4,h5,h6{margin:0;line-height:1.15;letter-spacing:-.015em}
+p{margin:0}
+::selection{background:rgba(76,175,80,.42);color:#fff}
+:focus-visible{outline:2px solid var(--yellow);outline-offset:3px;border-radius:6px}
+
+.container{width:100%;max-width:var(--max);margin:0 auto;padding:0 20px}
+@media(min-width:768px){.container{padding:0 28px}}
+
+/* ============================================================
+   3. HEADER
+   ============================================================ */
+.site-header{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  transition:background .3s var(--ease),box-shadow .3s var(--ease),backdrop-filter .3s;
+}
+.site-header.scrolled{
+  background:rgba(7,13,10,.82);
+  -webkit-backdrop-filter:blur(18px);
+  backdrop-filter:blur(18px);
+  box-shadow:0 1px 0 var(--line),0 10px 30px rgba(0,0,0,.35);
+}
+.header-inner{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:calc(env(safe-area-inset-top,0px) + 14px) 0 14px;
+}
+.brand{display:flex;align-items:center;gap:11px;color:var(--text);text-decoration:none;min-width:0}
+.brand:hover{color:var(--text)}
+.brand-mark{
+  flex:0 0 auto;width:42px;height:42px;border-radius:12px;
+  display:grid;place-items:center;color:#fff;
+  background:linear-gradient(135deg,var(--green-2),var(--green-3));
+  box-shadow:0 4px 16px rgba(76,175,80,.35),inset 0 0 0 1px rgba(255,255,255,.2);
+}
+.brand-mark svg{width:22px;height:22px}
+.brand-text{display:flex;flex-direction:column;line-height:1.15}
+.brand-text b{font-size:16px;font-weight:900;letter-spacing:.06em;color:#fff}
+.brand-text small{font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--text-3)}
+
+.header-nav{display:none;align-items:center;gap:26px}
+@media(min-width:900px){.header-nav{display:flex}}
+.header-nav a{
+  font-size:13.5px;font-weight:600;color:var(--text-2);
+  letter-spacing:.01em;transition:color .2s;
+}
+.header-nav a:hover{color:#fff}
+
+.header-actions{display:flex;align-items:center;gap:10px}
+.btn-signin{
+  display:inline-flex;align-items:center;gap:7px;
+  min-height:44px;padding:10px 20px;border-radius:12px;
+  border:1px solid rgba(76,175,80,.5);
+  background:linear-gradient(180deg,rgba(76,175,80,.28),rgba(43,106,53,.42));
+  color:#fff;font-weight:800;font-size:13.5px;letter-spacing:.01em;
+  box-shadow:0 4px 18px rgba(76,175,80,.25),inset 0 0 0 1px rgba(255,255,255,.08);
+  transition:transform .15s var(--ease),filter .2s,box-shadow .2s;
+}
+.btn-signin:hover{filter:brightness(1.12);color:#fff;box-shadow:0 6px 22px rgba(76,175,80,.38)}
+.btn-signin:active{transform:scale(.97)}
+
+/* ============================================================
+   4. HERO
+   ============================================================ */
+.hero{
+  position:relative;
+  min-height:100vh;
+  min-height:100svh;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+  background:
+    radial-gradient(120% 100% at 70% 20%, #1e3a5c 0%, #0f1e14 55%, #070d0a 100%);
+}
+#bg3d{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  display:block;z-index:0;
+  opacity:0;
+  transition:opacity 1.1s ease;
+}
+.hero.ready #bg3d{opacity:1}
+
+.hero-shade{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    linear-gradient(90deg,rgba(5,10,7,.94) 0%,rgba(5,10,7,.84) 36%,rgba(5,10,7,.32) 66%,rgba(5,10,7,0) 100%),
+    linear-gradient(180deg,rgba(5,10,7,.62) 0%,rgba(5,10,7,0) 24%,rgba(5,10,7,0) 60%,rgba(5,10,7,.97) 100%);
+}
+@media(max-width:900px){
+  .hero-shade{
+    background:
+      radial-gradient(130% 85% at 50% 32%,rgba(5,10,7,.35) 0%,rgba(5,10,7,.8) 66%,rgba(5,10,7,.97) 100%),
+      linear-gradient(180deg,rgba(5,10,7,.72) 0%,rgba(5,10,7,.3) 26%,rgba(5,10,7,.92) 100%);
+  }
+}
+
+.hero-content{
+  position:relative;z-index:2;
+  width:100%;
+  padding:calc(env(safe-area-inset-top,0px) + 110px) 0 90px;
+}
+@media(min-width:900px){
+  .hero-content{padding:130px 0 110px}
+}
+.hero-inner{max-width:660px;margin:0 auto;text-align:center}
+@media(min-width:900px){
+  .hero-inner{margin:0;text-align:left}
+}
+
+.hero-badge{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:7px 14px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.16);
+  background:rgba(255,255,255,.06);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  font-size:10.5px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;
+  color:#d7e9dc;margin-bottom:20px;
+}
+.hero-badge .dot{
+  width:7px;height:7px;border-radius:50%;background:#4ade80;
+  box-shadow:0 0 0 0 rgba(74,222,128,.5);
+  animation:pulse 2.2s infinite;
+}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(74,222,128,.5)}
+  70%{box-shadow:0 0 0 9px rgba(74,222,128,0)}
+  100%{box-shadow:0 0 0 0 rgba(74,222,128,0)}
+}
+
+.hero-title{
+  font-size:clamp(56px,16vw,108px);
+  font-weight:900;
+  letter-spacing:-.045em;
+  line-height:.92;
+  color:#fff;
+  text-shadow:0 6px 60px rgba(76,175,80,.28),0 2px 10px rgba(0,0,0,.45);
+  margin-bottom:8px;
+}
+.hero-sub{
+  font-size:clamp(15px,3.4vw,21px);
+  font-weight:700;
+  color:#cfe2d6;
+  letter-spacing:-.005em;
+  margin-bottom:4px;
+}
+.hero-tagline{
+  font-size:clamp(12px,2.4vw,14px);
+  font-weight:800;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--yellow);
+  margin-bottom:20px;
+}
+.hero-desc{
+  font-size:clamp(15px,2.6vw,17px);
+  color:var(--text-2);
+  line-height:1.6;
+  max-width:520px;
+  margin:0 auto 32px;
+}
+@media(min-width:900px){.hero-desc{margin:0 0 32px}}
+
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+@media(min-width:900px){.hero-actions{justify-content:flex-start}}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  min-height:52px;padding:13px 26px;border-radius:14px;
+  font-weight:800;font-size:15px;letter-spacing:.01em;
+  border:1px solid transparent;text-decoration:none;
+  transition:transform .15s var(--ease),filter .2s,background .2s,box-shadow .2s;
+}
+.btn:active{transform:scale(.97)}
+.btn-primary{
+  background:linear-gradient(180deg,var(--green-2),var(--green-3));
+  color:#fff;
+  box-shadow:0 8px 26px rgba(76,175,80,.34),inset 0 0 0 1px rgba(255,255,255,.2);
+}
+.btn-primary:hover{filter:brightness(1.08);color:#fff}
+.btn-ghost{
+  background:rgba(255,255,255,.07);
+  border-color:rgba(255,255,255,.22);
+  color:var(--text);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+}
+.btn-ghost:hover{background:rgba(255,255,255,.13);color:#fff}
+
+.hero-stats{
+  display:flex;align-items:center;justify-content:center;gap:0;
+  margin-top:40px;padding-top:26px;
+  border-top:1px solid rgba(255,255,255,.1);
+}
+@media(min-width:900px){.hero-stats{justify-content:flex-start}}
+.hero-stat{padding:0 22px;text-align:center}
+.hero-stat:first-child{padding-left:0;text-align:left}
+.hero-stat:last-child{padding-right:0}
+.hero-stat + .hero-stat{border-left:1px solid rgba(255,255,255,.1)}
+.hero-stat .v{
+  font-size:clamp(22px,4vw,28px);font-weight:900;color:#fff;
+  font-variant-numeric:tabular-nums;line-height:1;
+}
+.hero-stat .l{
+  font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-3);margin-top:5px;
+}
+
+.hero-scroll{
+  position:absolute;left:50%;bottom:26px;transform:translateX(-50%);
+  z-index:2;display:flex;flex-direction:column;align-items:center;gap:7px;
+  color:var(--text-3);font-size:9.5px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;
+  pointer-events:none;
+}
+.hero-scroll .mouse{
+  width:22px;height:34px;border:2px solid rgba(255,255,255,.28);border-radius:12px;
+  position:relative;
+}
+.hero-scroll .mouse::after{
+  content:"";position:absolute;left:50%;top:7px;width:3px;height:7px;
+  margin-left:-1.5px;border-radius:2px;background:rgba(255,255,255,.6);
+  animation:wheel 1.8s infinite;
+}
+@keyframes wheel{
+  0%{opacity:0;transform:translateY(0)}
+  30%{opacity:1}
+  100%{opacity:0;transform:translateY(10px)}
+}
+@media(max-height:680px){.hero-scroll{display:none}}
+
+/* ============================================================
+   5. SECTIONS
+   ============================================================ */
+section{padding:72px 0;position:relative}
+@media(min-width:768px){section{padding:104px 0}}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--text-3);margin-bottom:14px;
+}
+.eyebrow .dot{
+  width:7px;height:7px;border-radius:50%;background:var(--green);
+  box-shadow:0 0 0 0 rgba(76,175,80,.4);animation:pulse 2.2s infinite;
+}
+.section-title{
+  font-size:clamp(28px,5.2vw,42px);
+  font-weight:900;color:#fff;letter-spacing:-.025em;margin-bottom:14px;
+}
+.section-lede{
+  font-size:16px;color:var(--text-2);max-width:640px;line-height:1.6;margin-bottom:40px;
+}
+
+/* About cards */
+.about-grid{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:768px){.about-grid{grid-template-columns:repeat(3,1fr);gap:20px}}
+.about-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:24px 22px;
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  transition:border-color .25s,transform .25s var(--ease);
+}
+.about-card:hover{border-color:var(--line-2);transform:translateY(-2px)}
+.about-card .ico{
+  width:46px;height:46px;border-radius:12px;display:grid;place-items:center;
+  font-size:22px;margin-bottom:14px;
+  background:var(--green-soft);border:1px solid rgba(76,175,80,.26);
+}
+.about-card h3{font-size:16.5px;font-weight:800;color:#fff;margin-bottom:6px}
+.about-card p{font-size:14px;color:var(--text-2);line-height:1.6}
+
+/* Steps */
+.steps{display:grid;grid-template-columns:1fr;gap:16px;position:relative}
+@media(min-width:768px){
+  .steps{grid-template-columns:repeat(3,1fr);gap:22px}
+  .steps::before{
+    content:"";position:absolute;top:36px;left:8%;right:8%;height:2px;z-index:0;
+    background:linear-gradient(90deg,transparent,rgba(76,175,80,.35) 18%,rgba(76,175,80,.35) 82%,transparent);
+  }
+}
+.step{
+  position:relative;z-index:1;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:26px 22px;
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+}
+.step-num{
+  display:inline-grid;place-items:center;width:40px;height:40px;border-radius:11px;
+  background:linear-gradient(180deg,var(--green-2),var(--green-3));
+  color:#fff;font-weight:900;font-size:15px;margin-bottom:16px;
+  box-shadow:0 5px 16px rgba(76,175,80,.32);
+}
+.step h3{font-size:16.5px;font-weight:800;color:#fff;margin-bottom:6px}
+.step p{font-size:14px;color:var(--text-2);line-height:1.6}
+
+/* Features */
+.features{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:600px){.features{grid-template-columns:1fr 1fr;gap:16px}}
+@media(min-width:960px){.features{grid-template-columns:repeat(3,1fr);gap:18px}}
+.feature{
+  display:flex;gap:14px;padding:20px;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  transition:border-color .25s,background .25s;
+}
+.feature:hover{border-color:var(--line-2);background:rgba(20,36,28,.8)}
+.feature-ico{
+  flex:0 0 auto;width:42px;height:42px;border-radius:11px;display:grid;place-items:center;
+  font-size:20px;background:var(--green-soft);border:1px solid rgba(76,175,80,.24);
+}
+.feature h4{font-size:14.5px;font-weight:800;color:#fff;margin-bottom:4px}
+.feature p{font-size:13px;color:var(--text-2);line-height:1.55}
+
+/* Portals */
+.portals{display:grid;grid-template-columns:1fr;gap:18px}
+@media(min-width:820px){.portals{grid-template-columns:1fr 1fr;gap:22px}}
+.portal{
+  position:relative;display:flex;flex-direction:column;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:28px 24px;overflow:hidden;
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  transition:transform .25s var(--ease),border-color .25s;
+}
+.portal:hover{transform:translateY(-3px);border-color:var(--line-2)}
+.portal::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,var(--green),transparent);
+}
+.portal.admin::before{background:linear-gradient(90deg,transparent,var(--yellow),transparent)}
+.portal-head{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.portal-ico{
+  flex:0 0 auto;width:52px;height:52px;border-radius:14px;display:grid;place-items:center;
+  font-size:25px;background:var(--green-soft);border:1px solid rgba(76,175,80,.3);
+}
+.portal.admin .portal-ico{background:var(--yellow-soft);border-color:rgba(250,210,1,.3)}
+.portal-kicker{
+  font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--green);margin-bottom:2px;
+}
+.portal.admin .portal-kicker{color:var(--yellow)}
+.portal h3{font-size:21px;font-weight:900;color:#fff}
+.portal .lead{font-size:14.5px;color:var(--text-2);margin-bottom:18px;line-height:1.55}
+.portal ul{list-style:none;padding:0;margin:0 0 24px;display:grid;gap:10px}
+.portal ul li{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:13.5px;color:var(--text-2);line-height:1.5;
+}
+.portal ul li svg{flex:0 0 auto;margin-top:2px;color:var(--green)}
+.portal.admin ul li svg{color:var(--yellow)}
+.portal .btn{margin-top:auto;width:100%}
+.portal.admin .btn-primary{
+  background:linear-gradient(180deg,#e8bf0a,#c9a400);
+  color:#1a1500;
+  box-shadow:0 8px 26px rgba(250,210,1,.22),inset 0 0 0 1px rgba(255,255,255,.3);
+}
+
+/* CTA band */
+.cta-band{
+  position:relative;overflow:hidden;
+  border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:44px 28px;text-align:center;
+  background:
+    radial-gradient(90% 160% at 50% 0%,rgba(76,175,80,.22),transparent 60%),
+    linear-gradient(180deg,rgba(16,30,23,.9),rgba(9,17,13,.92));
+}
+.cta-band h2{font-size:clamp(24px,4.6vw,34px);font-weight:900;color:#fff;margin-bottom:10px}
+.cta-band p{font-size:15px;color:var(--text-2);max-width:520px;margin:0 auto 26px}
+
+/* ============================================================
+   6. FOOTER
+   ============================================================ */
+.site-footer{
+  margin-top:60px;
+  border-top:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(6,11,8,.6),#050a07 60%);
+  padding:52px 0 calc(env(safe-area-inset-bottom,0px) + 28px);
+}
+.footer-top{
+  display:grid;grid-template-columns:1fr;gap:34px;
+  padding-bottom:38px;
+}
+@media(min-width:640px){.footer-top{grid-template-columns:1fr 1fr;gap:32px}}
+@media(min-width:1000px){.footer-top{grid-template-columns:1.5fr 1.2fr .8fr .9fr;gap:44px}}
+
+.footer-brand .brand{margin-bottom:14px}
+.footer-brand p{font-size:13.5px;color:var(--text-3);line-height:1.65;max-width:320px}
+.footer-motto{
+  display:inline-block;margin-top:14px;
+  font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--yellow);opacity:.9;
+  padding:6px 12px;border-radius:8px;
+  background:var(--yellow-soft);border:1px solid rgba(250,210,1,.18);
+}
+
+.footer-col h6{
+  font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--text-3);margin-bottom:16px;
+}
+.contact-list{list-style:none;padding:0;margin:0;display:grid;gap:13px}
+.contact-list li{
+  display:flex;align-items:flex-start;gap:11px;
+  font-size:13.5px;color:var(--text-2);line-height:1.55;
+}
+.contact-list li svg{flex:0 0 auto;margin-top:2px;color:var(--green);opacity:.9}
+.contact-list a{color:var(--text-2);font-weight:600;transition:color .2s}
+.contact-list a:hover{color:#fff}
+.contact-list .muted{color:var(--text-3);font-weight:500}
+
+.footer-links{list-style:none;padding:0;margin:0;display:grid;gap:11px}
+.footer-links a{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:13.5px;font-weight:600;color:var(--text-2);transition:color .2s,transform .2s;
+}
+.footer-links a:hover{color:#fff;transform:translateX(2px)}
+.footer-links a::before{
+  content:"";width:4px;height:4px;border-radius:50%;background:var(--green);opacity:.6;
+}
+
+.footer-bottom{
+  padding-top:26px;border-top:1px solid var(--line);
+  display:flex;flex-direction:column;gap:16px;align-items:center;text-align:center;
+}
+@media(min-width:720px){
+  .footer-bottom{flex-direction:row;justify-content:space-between;text-align:left;gap:24px}
+}
+.footer-copy{font-size:12.5px;color:var(--text-3);line-height:1.6}
+.footer-copy b{color:var(--text-2);font-weight:700}
+
+.dev-credit{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:10px 18px;border-radius:999px;
+  background:rgba(255,255,255,.045);border:1px solid var(--line);
+  font-size:12.5px;font-weight:600;color:var(--text-2);
+  transition:background .2s,border-color .2s,transform .15s var(--ease),color .2s;
+  white-space:nowrap;
+}
+.dev-credit:hover{
+  background:rgba(250,210,1,.08);border-color:rgba(250,210,1,.32);
+  color:var(--text);transform:translateY(-1px);
+}
+.dev-credit b{color:var(--yellow);font-weight:900;letter-spacing:.02em}
+.dev-credit .arr{font-size:11px;opacity:.6}
+
+/* ============================================================
+   7. SIGN-IN MODAL
+   ============================================================ */
+.modal{
+  position:fixed;inset:0;z-index:300;
+  display:flex;align-items:center;justify-content:center;
+  padding:18px;
+  opacity:0;pointer-events:none;
+  transition:opacity .25s ease;
+}
+.modal.open{opacity:1;pointer-events:auto}
+.modal-backdrop{
+  position:absolute;inset:0;
+  background:rgba(3,7,5,.74);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+}
+.modal-card{
+  position:relative;width:100%;max-width:430px;
+  background:linear-gradient(180deg,#13241b,#0a1410);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:22px;
+  padding:26px 22px 24px;
+  box-shadow:var(--shadow-lg);
+  transform:translateY(16px) scale(.98);
+  transition:transform .32s var(--ease);
+  max-height:calc(100svh - 36px);
+  overflow-y:auto;
+}
+.modal.open .modal-card{transform:none}
+.modal-close{
+  position:absolute;top:14px;right:14px;
+  width:36px;height:36px;border-radius:10px;
+  border:1px solid var(--line);background:rgba(255,255,255,.05);
+  color:var(--text-2);font-size:19px;line-height:1;
+  display:grid;place-items:center;transition:background .2s,color .2s;
+}
+.modal-close:hover{background:rgba(255,255,255,.1);color:#fff}
+
+.modal-head{margin-bottom:22px;padding-right:32px}
+.modal-head .kicker{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--green);margin-bottom:8px;
+}
+.modal-head h3{font-size:21px;font-weight:900;color:#fff;margin-bottom:6px}
+.modal-head p{font-size:13px;color:var(--text-3);line-height:1.5}
+
+.role-list{display:grid;gap:12px}
+.role-card{
+  display:flex;align-items:center;gap:14px;width:100%;
+  padding:16px 16px;border-radius:14px;text-align:left;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.045);
+  color:var(--text);
+  transition:border-color .2s,background .2s,transform .15s var(--ease);
+}
+.role-card:hover{
+  border-color:rgba(76,175,80,.45);
+  background:rgba(76,175,80,.09);
+  transform:translateY(-1px);
+}
+.role-card:active{transform:scale(.99)}
+.role-card .ico{
+  flex:0 0 auto;width:46px;height:46px;border-radius:12px;display:grid;place-items:center;
+  font-size:22px;background:var(--green-soft);border:1px solid rgba(76,175,80,.3);
+}
+.role-card.admin .ico{background:var(--yellow-soft);border-color:rgba(250,210,1,.3)}
+.role-card .txt{flex:1;min-width:0}
+.role-card b{display:block;font-size:15px;font-weight:800;color:#fff;margin-bottom:2px}
+.role-card span{display:block;font-size:12px;color:var(--text-3);line-height:1.4}
+.role-card .chev{flex:0 0 auto;color:var(--text-3);font-size:18px;transition:transform .2s,color .2s}
+.role-card:hover .chev{color:var(--green);transform:translateX(3px)}
+
+.modal-step.hidden{display:none}
+.back-link{
+  display:inline-flex;align-items:center;gap:6px;
+  background:none;border:0;padding:0;margin-bottom:18px;
+  font-size:12.5px;font-weight:700;color:var(--text-3);
+  transition:color .2s;
+}
+.back-link:hover{color:#fff}
+
+.selected-role{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 14px;border-radius:12px;margin-bottom:20px;
+  background:rgba(76,175,80,.1);border:1px solid rgba(76,175,80,.3);
+}
+.selected-role.admin{background:rgba(250,210,1,.08);border-color:rgba(250,210,1,.3)}
+.selected-role .ico{font-size:20px}
+.selected-role b{display:block;font-size:13.5px;font-weight:800;color:#fff}
+.selected-role span{display:block;font-size:11.5px;color:var(--text-3)}
+
+.field{margin-bottom:15px}
+.field label{
+  display:block;font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--text-3);margin-bottom:6px;
+}
+.field input{
+  width:100%;min-height:48px;padding:12px 14px;
+  border-radius:12px;border:1px solid var(--line);
+  background:rgba(0,0,0,.28);color:#fff;
+  font:600 15px/1 'Inter',system-ui,sans-serif;
+  transition:border-color .2s,background .2s;
+}
+.field input::placeholder{color:#5d7768;font-weight:500}
+.field input:focus{
+  outline:none;border-color:rgba(76,175,80,.65);
+  background:rgba(0,0,0,.4);
+  box-shadow:0 0 0 3px rgba(76,175,80,.14);
+}
+
+.modal-submit{
+  width:100%;min-height:50px;margin-top:6px;
+  border:0;border-radius:13px;
+  background:linear-gradient(180deg,var(--green-2),var(--green-3));
+  color:#fff;font-weight:800;font-size:15px;letter-spacing:.01em;
+  box-shadow:0 8px 24px rgba(76,175,80,.3),inset 0 0 0 1px rgba(255,255,255,.18);
+  transition:filter .2s,transform .15s var(--ease);
+}
+.modal-submit:hover{filter:brightness(1.08)}
+.modal-submit:active{transform:scale(.985)}
+.modal-submit:disabled{opacity:.7;cursor:wait}
+
+.modal-foot{
+  margin-top:16px;text-align:center;
+  font-size:11.5px;color:var(--text-3);line-height:1.5;
+}
+
+/* ============================================================
+   8. REVEAL
+   ============================================================ */
+[data-reveal]{
+  opacity:0;transform:translateY(20px);
+  transition:opacity .75s var(--ease),transform .75s var(--ease);
+}
+[data-reveal].in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}
+  [data-reveal]{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="site-header" id="siteHeader">
+  <div class="container header-inner">
+    <a href="#top" class="brand" aria-label="INZIRA home">
+      <span class="brand-mark">
+        <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <path d="M6 26C6 18 14 18 14 14s8-4 8-8" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+          <circle cx="6" cy="26" r="3.4" fill="currentColor"/>
+          <circle cx="22" cy="6" r="3.4" fill="currentColor"/>
+        </svg>
+      </span>
+      <span class="brand-text">
+        <b>INZIRA</b>
+        <small>TTC Muhanga</small>
+      </span>
+    </a>
+
+    <nav class="header-nav" aria-label="Main navigation">
+      <a href="#about">About</a>
+      <a href="#how">How it works</a>
+      <a href="#features">Features</a>
+      <a href="#portals">Portals</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="btn-signin" data-open-signin>
+        Sign in
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero" id="top">
+  <canvas id="bg3d" aria-hidden="true"></canvas>
+  <div class="hero-shade" aria-hidden="true"></div>
+
+  <div class="hero-content">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-badge">
+          <span class="dot"></span>
+          Live · Internship deployment 2026–2027
+        </div>
+
+        <h1 class="hero-title">INZIRA</h1>
+        <p class="hero-sub">Internship Movement Tracker</p>
+        <p class="hero-tagline">Genda · Garuka · Wandike</p>
+
+        <p class="hero-desc">
+          Track every intern's daily exit and return — in real time,
+          paperless, and from any phone. Know who is out, who is back,
+          and who is overdue. No more paper registers.
+        </p>
+
+        <div class="hero-actions">
+          <button class="btn btn-primary" data-open-signin>
+            Sign in
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <a href="#portals" class="btn btn-ghost">Explore portals</a>
+        </div>
+
+        <div class="hero-stats" aria-label="Key figures">
+          <div class="hero-stat">
+            <div class="v">214</div>
+            <div class="l">Interns</div>
+          </div>
+          <div class="hero-stat">
+            <div class="v">6</div>
+            <div class="l">Partner schools</div>
+          </div>
+          <div class="hero-stat">
+            <div class="v">2</div>
+            <div class="l">Daily sessions</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll" aria-hidden="true">
+    <span class="mouse"></span>
+    Scroll
+  </div>
+</section>
+
+<!-- ============================================================
+     ABOUT
+     ============================================================ -->
+<section id="about">
+  <div class="container">
+    <div data-reveal>
+      <div class="eyebrow"><span class="dot"></span>About the system</div>
+      <h2 class="section-title">What is INZIRA?</h2>
+      <p class="section-lede">
+        INZIRA is a simple, paperless system for tracking student-intern movements
+        at TTC Muhanga. It replaces the paper exit register with a fast,
+        mobile-first tool that works on any phone — even without a dedicated
+        computer at the gate.
+      </p>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-card" data-reveal>
+        <div class="ico" aria-hidden="true">📱</div>
+        <h3>Built for the phone</h3>
+        <p>Gatekeepers use their own phones. Big one-tap buttons, readable text, no training required.</p>
+      </div>
+      <div class="about-card" data-reveal>
+        <div class="ico" aria-hidden="true">⚡</div>
+        <h3>Record in seconds</h3>
+        <p>Tap “Check out” when an intern leaves, “Check in” when they return. Duration is computed automatically.</p>
+      </div>
+      <div class="about-card" data-reveal>
+        <div class="ico" aria-hidden="true">📊</div>
+        <h3>See the full picture</h3>
+        <p>School leadership sees who is out, which school they went to, and who is overdue — updated live.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     HOW IT WORKS
+     ============================================================ -->
+<section id="how">
+  <div class="container">
+    <div data-reveal>
+      <div class="eyebrow"><span class="dot"></span>How it works</div>
+      <h2 class="section-title">Three steps. Every day.</h2>
+      <p class="section-lede">
+        The entire workflow is built around one simple cycle: leave, track, return.
+      </p>
+    </div>
+
+    <div class="steps">
+      <div class="step" data-reveal>
+        <div class="step-num">1</div>
+        <h3>Check out</h3>
+        <p>The gatekeeper taps “Check out” on the student's card. The time is stamped instantly — no writing, no queues.</p>
+      </div>
+      <div class="step" data-reveal>
+        <div class="step-num">2</div>
+        <h3>Live tracking</h3>
+        <p>The admin dashboard shows every student currently out, which school they are at, and how long they have been gone.</p>
+      </div>
+      <div class="step" data-reveal>
+        <div class="step-num">3</div>
+        <h3>Check in</h3>
+        <p>When the student returns, the gatekeeper taps “Check in”. The system computes the duration and closes the record.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FEATURES
+     ============================================================ -->
+<section id="features">
+  <div class="container">
+    <div data-reveal>
+      <div class="eyebrow"><span class="dot"></span>Key features</div>
+      <h2 class="section-title">Everything you need. Nothing you don't.</h2>
+      <p class="section-lede">
+        A small, focused set of features built around one problem:
+        knowing where interns are, and when they come back.
+      </p>
+    </div>
+
+    <div class="features">
+      <div class="feature" data-reveal>
+        <div class="feature-ico" aria-hidden="true">🛰️</div>
+        <div>
+          <h4>Real-time tracking</h4>
+          <p>See who is out right now, updated the moment a gatekeeper taps.</p>
+        </div>
+      </div>
+      <div class="feature" data-reveal>
+        <div class="feature-ico" aria-hidden="true">🏫</div>
+        <div>
+          <h4>Per-school breakdown</h4>
+          <p>Every intern is grouped by their placement school — EP MBARE, GS SAINT ETIENNE, and more.</p>
+        </div>
+      </div>
+      <div class="feature" data-reveal>
+        <div class="feature-ico" aria-hidden="true">⏰</div>
+        <div>
+          <h4>Overdue alerts</h4>
+          <p>Anyone who has not returned after a set time is flagged in red — automatically.</p>
+        </div>
+      </div>
+      <div class="feature" data-reveal>
+        <div class="feature-ico" aria-hidden="true">📅</div>
+        <div>
+          <h4>Daily reports</h4>
+          <p>Per-day totals, per-school totals, and a missing-returns list, for any date range.</p>
+        </div>
+      </div>
+      <div class="feature" data-reveal>
+        <div class="feature-ico" aria-hidden="true">📤</div>
+        <div>
+          <h4>CSV &amp; print export</h4>
+          <p>Export any report as CSV or print it — ready for the office, the district, or the Ministry.</p>
+        </div>
+      </div>
+      <div class="feature" data-reveal>
+        <div class="feature-ico" aria-hidden="true">🔒</div>
+        <div>
+          <h4>Data stays on your device</h4>
+          <p>No server, no login, no internet required. Records live inside the browser on the school's device.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PORTALS
+     ============================================================ -->
+<section id="portals">
+  <div class="container">
+    <div data-reveal>
+      <div class="eyebrow"><span class="dot"></span>Choose your portal</div>
+      <h2 class="section-title">Two roles. One system.</h2>
+      <p class="section-lede">
+        INZIRA has two focused interfaces — one for the gate, one for the office.
+        Sign in once and you're taken straight to the right screen.
+      </p>
+    </div>
+
+    <div class="portals">
+      <article class="portal" data-reveal>
+        <div class="portal-head">
+          <div class="portal-ico" aria-hidden="true">🚪</div>
+          <div>
+            <div class="portal-kicker">Gate staff</div>
+            <h3>Gatekeeper</h3>
+          </div>
+        </div>
+        <p class="lead">
+          Fast, one-tap check-in and check-out. Designed to be used while standing
+          at the gate, on a phone.
+        </p>
+        <ul>
+          <li>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Instant check-out and check-in
+          </li>
+          <li>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Search by name, class, or school
+          </li>
+          <li>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Automatic duration tracking
+          </li>
+          <li>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Works with or without internet
+          </li>
+        </ul>
+        <button class="btn btn-primary" data-open-signin data-role="gatekeeper">
+          Gatekeeper sign in
+        </button>
+      </article>
+
+      <article class="portal admin" data-reveal>
+        <div class="portal-head">
+          <div class="portal-ico" aria-hidden="true">📊</div>
+          <div>
+            <div class="portal-kicker">School leadership</div>
+            <h3>Administrator</h3>
+          </div>
+        </div>
+        <p class="lead">
+          A live dashboard of the whole school's internship movements, with reports
+          and CSV exports for the office.
+        </p>
+        <ul>
+          <li>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Live “who's out” dashboard
+          </li>
+          <li>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Per-school and per-day breakdowns
+          </li>
+          <li>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Overdue alerts and missing-return list
+          </li>
+          <li>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Export daily reports as CSV or print
+          </li>
+        </ul>
+        <button class="btn btn-primary" data-open-signin data-role="admin">
+          Administrator sign in
+        </button>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CTA BAND
+     ============================================================ -->
+<section style="padding-top:0">
+  <div class="container">
+    <div class="cta-band" data-reveal>
+      <h2>Ready to go paperless?</h2>
+      <p>Sign in once, and INZIRA opens the right portal for your role.</p>
+      <button class="btn btn-primary" data-open-signin>
+        Sign in to INZIRA
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="site-footer">
+  <div class="container">
+
+    <div class="footer-top">
+
+      <!-- Brand -->
+      <div class="footer-brand">
+        <a href="#top" class="brand">
+          <span class="brand-mark">
+            <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <path d="M6 26C6 18 14 18 14 14s8-4 8-8" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+              <circle cx="6" cy="26" r="3.4" fill="currentColor"/>
+              <circle cx="22" cy="6" r="3.4" fill="currentColor"/>
+            </svg>
+          </span>
+          <span class="brand-text">
+            <b>INZIRA</b>
+            <small>TTC Muhanga</small>
+          </span>
+        </a>
+        <p>
+          Internship movement tracking for TTC Muhanga. A paperless,
+          phone-first way to know who is out, who is back, and who is overdue.
+        </p>
+        <span class="footer-motto">“Knowledge, Success and Unity”</span>
+      </div>
+
+      <!-- Contact -->
+      <div class="footer-col">
+        <h6>Contact</h6>
+        <ul class="contact-list">
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 21s7-5.2 7-11a7 7 0 1 0-14 0c0 5.8 7 11 7 11Z" stroke="currentColor" stroke-width="1.8"/>
+              <circle cx="12" cy="10" r="2.6" stroke="currentColor" stroke-width="1.8"/>
+            </svg>
+            <span>Mubuga Cell, Shyogwe Sector<br>Muhanga District, Southern Province, Rwanda</span>
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"
+                    stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            </svg>
+            <span>
+              <a href="tel:+250786286911">0786 286 911</a>
+              <span class="muted"> · General</span><br>
+              <a href="tel:+250788598705">+250 788 598 705</a>
+              <span class="muted"> · Principal</span>
+            </span>
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="2.4" stroke="currentColor" stroke-width="1.8"/>
+              <path d="m3.5 7 8.5 6 8.5-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            <span>
+              <a href="mailto:ttcmuhanga@yahoo.fr">ttcmuhanga@yahoo.fr</a><br>
+              <a href="mailto:info@ttcmuhanga.edu.rw">info@ttcmuhanga.edu.rw</a>
+            </span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- System links -->
+      <div class="footer-col">
+        <h6>System</h6>
+        <ul class="footer-links">
+          <li><a href="#about">About INZIRA</a></li>
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#portals">Portals</a></li>
+        </ul>
+      </div>
+
+      <!-- Portals -->
+      <div class="footer-col">
+        <h6>Portals</h6>
+        <ul class="footer-links">
+          <li><a href="#" data-open-signin data-role="gatekeeper">Gatekeeper</a></li>
+          <li><a href="#" data-open-signin data-role="admin">Administrator</a></li>
+          <li><a href="#" data-open-signin>Sign in</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copy">
+        © <span id="year">2026</span> <b>TTC Muhanga</b> · Ministry of Education · Southern Province, Rwanda
+      </p>
+      <a class="dev-credit"
+         href="https://imena-lab.vercel.app"
+         target="_blank"
+         rel="noopener noreferrer"
+         aria-label="Visit iMENA Lab website">
+        ♥ Developed by <b>iMENA Lab</b>
+        <span class="arr" aria-hidden="true">↗</span>
+      </a>
+    </div>
+
+  </div>
+</footer>
+
+<!-- ============================================================
+     SIGN-IN MODAL
+     ============================================================ -->
+<div class="modal" id="signinModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-backdrop" data-close-modal></div>
+
+  <div class="modal-card">
+    <button class="modal-close" data-close-modal aria-label="Close sign-in">×</button>
+
+    <!-- STEP 1: choose role -->
+    <div class="modal-step" id="stepRole">
+      <div class="modal-head">
+        <span class="kicker"><span class="dot"></span>Secure access</span>
+        <h3 id="modalTitle">Sign in to INZIRA</h3>
+        <p>Choose your role to continue.</p>
+      </div>
+
+      <div class="role-list">
+        <button class="role-card admin" data-role="admin">
+          <span class="ico" aria-hidden="true">📊</span>
+          <span class="txt">
+            <b>Administrator</b>
+            <span>School leadership · dashboard &amp; reports</span>
+          </span>
+          <span class="chev" aria-hidden="true">→</span>
+        </button>
+
+        <button class="role-card" data-role="gatekeeper">
+          <span class="ico" aria-hidden="true">🚪</span>
+          <span class="txt">
+            <b>Gatekeeper</b>
+            <span>Gate staff · check-in &amp; check-out</span>
+          </span>
+          <span class="chev" aria-hidden="true">→</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 2: sign in -->
+    <div class="modal-step hidden" id="stepLogin">
+      <button class="back-link" id="backToRole">
+        <span aria-hidden="true">←</span> Change role
+      </button>
+
+      <div class="selected-role" id="selectedRoleBox">
+        <span class="ico" id="selIco" aria-hidden="true">📊</span>
+        <span>
+          <b id="selName">Administrator</b>
+          <span id="selDesc">School leadership · dashboard &amp; reports</span>
+        </span>
+      </div>
+
+      <form id="signinForm" novalidate>
+        <div class="field">
+          <label for="staffName">Staff name or ID</label>
+          <input id="staffName" name="staffName" type="text"
+                 placeholder="e.g. UWASE Jean" autocomplete="username" required>
+        </div>
+        <div class="field">
+          <label for="staffPin">PIN / Password</label>
+          <input id="staffPin" name="staffPin" type="password"
+                 placeholder="••••••" autocomplete="current-password" required>
+        </div>
+        <button type="submit" class="modal-submit" id="signinBtn">
+          Sign in
+        </button>
+      </form>
+
+      <p class="modal-foot">
+        You will be signed in and taken straight to the
+        <span id="footRole">Administrator</span> portal.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     IMPORT MAP + 3D CINEMATIC BACKGROUND
+     ============================================================ -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+
+/* ============================================================
+   3D CINEMATIC CAMPUS BACKGROUND
+   ============================================================ */
+const heroEl = document.querySelector('.hero');
+const canvas = document.getElementById('bg3d');
+
+const IS_TOUCH = matchMedia('(hover: none) and (pointer: coarse)').matches;
+const REDUCED  = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const DPR_CAP  = IS_TOUCH ? 1.5 : 2;
+
+let renderer, scene, camera, clock;
+let flagGeo, flagBase;
+let heroVisible = true;
+let webglOK = true;
+
+/* ---------- helpers ---------- */
+const M = {};
+
+function makeTex(draw, w = 256, h = 256, rx = 1, ry = 1) {
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  draw(c.getContext('2d'), w, h);
+  const t = new THREE.CanvasTexture(c);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.repeat.set(rx, ry);
+  t.colorSpace = THREE.SRGBColorSpace;
+  t.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+  return t;
+}
+
+function box(w, h, d, mat, x, y, z, parent = scene, shadow = true) {
+  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+  m.position.set(x, y, z);
+  m.castShadow = shadow && !IS_TOUCH;
+  m.receiveShadow = true;
+  parent.add(m);
+  return m;
+}
+
+function cyl(rt, rb, h, seg, mat, x, y, z, parent = scene, shadow = true) {
+  const m = new THREE.Mesh(new THREE.CylinderGeometry(rt, rb, h, seg), mat);
+  m.position.set(x, y, z);
+  m.castShadow = shadow && !IS_TOUCH;
+  m.receiveShadow = true;
+  parent.add(m);
+  return m;
+}
+
+function signTexture(text) {
+  return makeTex((ctx, w, h) => {
+    const g = ctx.createLinearGradient(0, 0, 0, h);
+    g.addColorStop(0, '#1c5a31');
+    g.addColorStop(1, '#0f3a1e');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+    ctx.strokeStyle = '#FAD201'; ctx.lineWidth = 8;
+    ctx.strokeRect(10, 10, w - 20, h - 20);
+    ctx.fillStyle = '#ffffff';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.font = '900 58px Arial, sans-serif';
+    ctx.fillText(text.toUpperCase(), w / 2, h / 2 + 3);
+  }, 512, 160);
+}
+
+function makeSign(text, w, h, x, y, z, rotY = 0) {
+  const mat = new THREE.MeshStandardMaterial({
+    map: signTexture(text), roughness: 0.55, metalness: 0.05
+  });
+  const s = new THREE.Mesh(new THREE.PlaneGeometry(w, h), mat);
+  s.position.set(x, y, z);
+  s.rotation.y = rotY;
+  scene.add(s);
+  return s;
+}
+
+/* ============================================================
+   BUILD SCENE
+   ============================================================ */
+function initThree() {
+  try {
+    renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: !IS_TOUCH,
+      powerPreference: 'high-performance',
+      alpha: false,
+      stencil: false
+    });
+  } catch (e) {
+    webglOK = false;
+    return;
+  }
+
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, DPR_CAP));
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.08;
+  renderer.shadowMap.enabled = !IS_TOUCH;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.shadowMap.autoUpdate = false;
+
+  scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(0xd6c1a4, 150, 560);
+
+  camera = new THREE.PerspectiveCamera(50, 1, 0.5, 2000);
+  clock = new THREE.Clock();
+
+  buildSky();
+  buildLights();
+  buildMaterials();
+  buildGround();
+  buildCampus();
+
+  resize();
+  renderer.shadowMap.needsUpdate = true;
+
+  // first frame
+  camera.position.set(110, 62, 128);
+  camera.lookAt(0, 4, -8);
+  renderer.render(scene, camera);
+  heroEl.classList.add('ready');
+
+  animate();
+}
+
+/* ---------- sky ---------- */
+function buildSky() {
+  const sunDir = new THREE.Vector3(0.55, 0.42, 0.72).normalize();
+
+  const skyMat = new THREE.ShaderMaterial({
+    side: THREE.BackSide,
+    depthWrite: false,
+    fog: false,
+    uniforms: {
+      top:     { value: new THREE.Color(0x1d3b5f) },
+      mid:     { value: new THREE.Color(0x8fb8d8) },
+      bottom:  { value: new THREE.Color(0xf3d3ae) },
+      sunCol:  { value: new THREE.Color(0xffe2b0) },
+      sunDir:  { value: sunDir }
+    },
+    vertexShader: `
+      varying vec3 vWorld;
+      void main() {
+        vWorld = position;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      varying vec3 vWorld;
+      uniform vec3 top, mid, bottom, sunCol, sunDir;
+      void main() {
+        vec3 dir = normalize(vWorld);
+        float h = dir.y;
+
+        vec3 col = mix(mid, top, pow(clamp(h, 0.0, 1.0), 0.55));
+        col = mix(bottom, col, smoothstep(-0.06, 0.28, h));
+
+        float sun = pow(max(dot(dir, normalize(sunDir)), 0.0), 180.0);
+        col += sunCol * sun * 1.35;
+
+        col += vec3(1.0, 0.70, 0.42) * pow(1.0 - abs(h), 7.0) * 0.22;
+
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `
+  });
+
+  const sky = new THREE.Mesh(new THREE.SphereGeometry(800, 24, 16), skyMat);
+  scene.add(sky);
+}
+
+/* ---------- lights ---------- */
+function buildLights() {
+  scene.add(new THREE.HemisphereLight(0xbfd8f5, 0x6b5638, 0.85));
+
+  const sun = new THREE.DirectionalLight(0xffd7a4, 2.15);
+  sun.position.set(130, 105, 75);
+
+  if (!IS_TOUCH) {
+    sun.castShadow = true;
+    sun.shadow.mapSize.set(1024, 1024);
+    sun.shadow.camera.near = 20;
+    sun.shadow.camera.far = 420;
+    sun.shadow.camera.left = -120;
+    sun.shadow.camera.right = 120;
+    sun.shadow.camera.top = 120;
+    sun.shadow.camera.bottom = -120;
+    sun.shadow.bias = -0.0006;
+    sun.shadow.normalBias = 0.05;
+  }
+
+  scene.add(sun);
+  scene.add(sun.target);
+  sun.target.position.set(0, 0, -10);
+  sun.target.updateMatrixWorld();
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.18));
+}
+
+/* ---------- materials ---------- */
+function buildMaterials() {
+  const grassTex = makeTex((ctx, w, h) => {
+    ctx.fillStyle = '#4f7a3a'; ctx.fillRect(0, 0, w, h);
+    for (let i = 0; i < 18000; i++) {
+      const r = Math.random();
+      ctx.fillStyle = r > 0.66 ? '#5f9147' : r > 0.33 ? '#426b2e' : '#6ba24f';
+      ctx.fillRect(Math.random() * w, Math.random() * h, 2.2, 2.2);
+    }
+  }, 256, 256, 100, 100);
+
+  const brickTex = makeTex((ctx, w, h) => {
+    ctx.fillStyle = '#c9bfae'; ctx.fillRect(0, 0, w, h);
+    const bw = 62, bh = 24, gap = 5;
+    let row = 0;
+    for (let y = 0; y < h; y += bh + gap) {
+      const off = row % 2 ? (bw + gap) / 2 : 0;
+      for (let x = -bw; x < w + bw; x += bw + gap) {
+        const shades = ['#ad6a50', '#9e5b44', '#b9785a', '#92513c'];
+        ctx.fillStyle = shades[Math.floor(Math.random() * 4)];
+        ctx.fillRect(x + off, y, bw, bh);
+      }
+      row++;
+    }
+  }, 256, 256, 4, 2.2);
+
+  const concreteTex = makeTex((ctx, w, h) => {
+    ctx.fillStyle = '#b8b5ae'; ctx.fillRect(0, 0, w, h);
+    for (let i = 0; i < 8000; i++) {
+      ctx.fillStyle = Math.random() > 0.5 ? 'rgba(255,255,255,.06)' : 'rgba(0,0,0,.06)';
+      ctx.fillRect(Math.random() * w, Math.random() * h, 3, 3);
+    }
+  }, 256, 256, 14, 14);
+
+  const roofTex = makeTex((ctx, w, h) => {
+    ctx.fillStyle = '#9e4432'; ctx.fillRect(0, 0, w, h);
+    for (let x = 0; x < w; x += 10) {
+      ctx.fillStyle = 'rgba(0,0,0,.22)'; ctx.fillRect(x, 0, 4, h);
+      ctx.fillStyle = 'rgba(255,255,255,.12)'; ctx.fillRect(x + 4, 0, 3, h);
+    }
+  }, 128, 128, 10, 3);
+
+  const plasterTex = makeTex((ctx, w, h) => {
+    ctx.fillStyle = '#efe9dc'; ctx.fillRect(0, 0, w, h);
+    for (let i = 0; i < 5000; i++) {
+      ctx.fillStyle = Math.random() > 0.5 ? 'rgba(255,255,255,.15)' : 'rgba(0,0,0,.03)';
+      ctx.fillRect(Math.random() * w, Math.random() * h, 4, 4);
+    }
+  }, 256, 256, 2, 2);
+
+  M.grass    = new THREE.MeshStandardMaterial({ map: grassTex, roughness: 1 });
+  M.brick    = new THREE.MeshStandardMaterial({ map: brickTex, roughness: 0.92 });
+  M.concrete = new THREE.MeshStandardMaterial({ map: concreteTex, roughness: 0.9 });
+  M.plaster  = new THREE.MeshStandardMaterial({ map: plasterTex, roughness: 0.95 });
+  M.roof     = new THREE.MeshStandardMaterial({ map: roofTex, roughness: 0.62, metalness: 0.16 });
+  M.cream    = new THREE.MeshStandardMaterial({ color: 0xe8e0cf, roughness: 0.9 });
+  M.white    = new THREE.MeshStandardMaterial({ color: 0xf3f1ea, roughness: 0.75 });
+  M.green    = new THREE.MeshStandardMaterial({ color: 0x2f6b35, roughness: 0.65 });
+  M.darkWood = new THREE.MeshStandardMaterial({ color: 0x5a3a1c, roughness: 0.85 });
+  M.metal    = new THREE.MeshStandardMaterial({ color: 0x9aa0a6, metalness: 0.85, roughness: 0.32 });
+  M.dark     = new THREE.MeshStandardMaterial({ color: 0x2d3134, roughness: 0.8 });
+  M.glass    = new THREE.MeshStandardMaterial({
+    color: 0x8fc7dd, roughness: 0.08, metalness: 0.4,
+    transparent: true, opacity: 0.5
+  });
+  M.tile     = new THREE.MeshStandardMaterial({ color: 0xc9c2b2, roughness: 0.62 });
+  M.foliage  = new THREE.MeshStandardMaterial({ color: 0x2f6b2a, roughness: 1, flatShading: true });
+  M.yellow   = new THREE.MeshStandardMaterial({ color: 0xFAD201, roughness: 0.6 });
+}
+
+/* ---------- ground + paths ---------- */
+function buildGround() {
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(900, 900), M.grass);
+  ground.rotation.x = -Math.PI / 2;
+  ground.receiveShadow = true;
+  scene.add(ground);
+
+  const pathMat = M.concrete;
+
+  function path(w, l, x, z, rotY = 0) {
+    const p = new THREE.Mesh(new THREE.PlaneGeometry(w, l), pathMat);
+    p.rotation.x = -Math.PI / 2;
+    p.rotation.z = rotY;
+    p.position.set(x, 0.045, z);
+    p.receiveShadow = true;
+    scene.add(p);
+  }
+
+  path(12, 128, 0, 22);      // main avenue
+  path(9, 30, -32, 12);      // to lab
+  path(9, 30, 32, 12);       // to dining
+  path(16, 10, 0, 82);       // gate approach
+  path(38, 22, 0, 52);       // court apron
+}
+
+/* ---------- roof helpers ---------- */
+function gableRoof(w, d, rise, y, z, mat, parent = scene) {
+  const g = new THREE.Group();
+  const slope = Math.atan2(rise, d / 2);
+  const len = Math.hypot(d / 2, rise) + 0.6;
+
+  const p1 = box(w, 0.24, len, mat, 0, rise / 2, d / 4, g, false);
+  p1.rotation.x = slope;
+
+  const p2 = box(w, 0.24, len, mat, 0, rise / 2, -d / 4, g, false);
+  p2.rotation.x = -slope;
+
+  box(w, 0.2, 0.5, mat, 0, rise, 0, g, false);
+  g.position.set(0, y, z);
+  parent.add(g);
+  return g;
+}
+
+function hipRoof(w, d, rise, y, z, mat, parent = scene) {
+  const g = new THREE.Group();
+  const cone = new THREE.Mesh(new THREE.ConeGeometry(1, 1, 4, 1), mat);
+  cone.rotation.y = Math.PI / 4;
+  cone.scale.set(w / 1.414, rise, d / 1.414);
+  cone.position.y = rise / 2;
+  cone.castShadow = !IS_TOUCH;
+  cone.receiveShadow = true;
+  g.add(cone);
+  g.position.set(0, y, z);
+  parent.add(g);
+  return g;
+}
+
+/* ---------- campus ---------- */
+function buildCampus() {
+  buildAcademicBlock();
+  buildLab();
+  buildDining();
+  buildAdmin();
+  buildDorms();
+  buildGate();
+  buildFlag();
+  buildCourt();
+  buildTrees();
+}
+
+function buildAcademicBlock() {
+  const W = 72, D = 14, cz = -46;
+  const H1 = 4.1, H2 = 8.3;
+  const frontZ = cz + D / 2;
+
+  box(W, 0.5, D, M.concrete, 0, -0.25, cz);
+  box(W, 0.5, D, M.concrete, 0, H1 - 0.25, cz);
+  box(W, 0.3, D, M.cream, 0, H2 + 0.15, cz);
+
+  // back + sides
+  box(W, H2, 0.42, M.brick, 0, H2 / 2, cz - D / 2);
+  box(0.42, H2, D, M.brick, -W / 2, H2 / 2, cz);
+  box(0.42, H2, D, M.brick,  W / 2, H2 / 2, cz);
+
+  // front bands
+  for (const [base, ceil] of [[0, H1], [H1, H2]]) {
+    box(W, 1.0, 0.34, M.brick, 0, base + 0.5, frontZ);
+    box(W, 0.82, 0.34, M.brick, 0, ceil - 0.41, frontZ);
+
+    const y0 = base + 1.0, y1 = ceil - 0.82;
+
+    for (let x = -W / 2; x <= W / 2; x += 6) {
+      box(0.46, y1 - y0, 0.34, M.brick, x, (y0 + y1) / 2, frontZ);
+    }
+
+    box(W - 1, y1 - y0 - 0.08, 0.07, M.glass, 0, (y0 + y1) / 2, frontZ + 0.01, scene, false);
+  }
+
+  // veranda
+  box(W, 0.32, 3.6, M.tile, 0, 0.16, frontZ + 1.8);
+  box(W, 0.32, 3.6, M.tile, 0, H1 - 0.16, frontZ + 1.8);
+
+  for (let x = -W / 2; x <= W / 2; x += 6) {
+    box(0.5, H1, 0.5, M.white, x, H1 / 2, frontZ + 3.3);
+    box(0.44, H2 - H1, 0.44, M.white, x, H1 + (H2 - H1) / 2, frontZ + 3.3);
+  }
+
+  // railing
+  box(W, 0.09, 0.09, M.green, 0, H1 + 0.92, frontZ + 3.34, scene, false);
+  box(W, 0.09, 0.09, M.green, 0, H1 + 0.46, frontZ + 3.34, scene, false);
+
+  // roof
+  gableRoof(W + 3, D + 7, 2.7, H2 + 0.3, cz + 1.0, M.roof);
+
+  // sign
+  makeSign('TTC MUHANGA', 14, 2.0, 0, H2 + 0.55, frontZ + 0.28, 0);
+}
+
+function buildLab() {
+  const W = 22, D = 14, H = 4.5;
+  const cx = -42, cz = 12;
+
+  box(W, 0.45, D, M.concrete, cx, -0.22, cz);
+  box(W, H, 0.4, M.brick, cx, H / 2, cz - D / 2);
+  box(0.4, H, D, M.brick, cx - W / 2, H / 2, cz);
+  box(0.4, H, D, M.brick, cx + W / 2, H / 2, cz);
+
+  // front
+  box(W, 1.0, 0.34, M.brick, cx, 0.5, cz + D / 2);
+  box(W, 0.85, 0.34, M.brick, cx, H - 0.42, cz + D / 2);
+  box(W - 2, H - 1.9, 0.07, M.glass, cx, 1.0 + (H - 1.9) / 2, cz + D / 2 + 0.01, scene, false);
+
+  hipRoof(W + 2, D + 2, 2.4, H + 0.15, cz, M.roof);
+  makeSign('SCIENCE LAB', 8, 1.4, cx, H + 0.55, cz + D / 2 + 0.2, 0);
+}
+
+function buildDining() {
+  const W = 24, D = 16, H = 4.9;
+  const cx = 42, cz = 12;
+
+  box(W, 0.45, D, M.concrete, cx, -0.22, cz);
+  box(W, H, 0.4, M.brick, cx, H / 2, cz - D / 2);
+  box(0.4, H, D, M.brick, cx - W / 2, H / 2, cz);
+  box(0.4, H, D, M.brick, cx + W / 2, H / 2, cz);
+
+  box(W, 1.0, 0.34, M.brick, cx, 0.5, cz + D / 2);
+  box(W, 0.85, 0.34, M.brick, cx, H - 0.42, cz + D / 2);
+  box(W - 2, H - 1.9, 0.07, M.glass, cx, 1.0 + (H - 1.9) / 2, cz + D / 2 + 0.01, scene, false);
+
+  gableRoof(W + 2, D + 2, 2.6, H + 0.15, cz, M.roof);
+  makeSign('DINING HALL', 9, 1.5, cx, H + 0.55, cz + D / 2 + 0.2, 0);
+}
+
+function buildAdmin() {
+  const W = 20, D = 12, H = 4.3;
+  const cx = -58, cz = 54;
+
+  box(W, 0.45, D, M.concrete, cx, -0.22, cz);
+  box(W, H, 0.4, M.brick, cx, H / 2, cz - D / 2);
+  box(0.4, H, D, M.brick, cx - W / 2, H / 2, cz);
+  box(0.4, H, D, M.brick, cx + W / 2, H / 2, cz);
+
+  box(W, 1.0, 0.34, M.brick, cx, 0.5, cz + D / 2);
+  box(W, 0.85, 0.34, M.brick, cx, H - 0.42, cz + D / 2);
+  box(W - 2, H - 1.9, 0.07, M.glass, cx, 1.0 + (H - 1.9) / 2, cz + D / 2 + 0.01, scene, false);
+
+  hipRoof(W + 2, D + 2, 2.2, H + 0.15, cz, M.roof);
+  makeSign('ADMINISTRATION', 9, 1.5, cx, H + 0.5, cz + D / 2 + 0.2, 0);
+}
+
+function buildDorms() {
+  const blocks = [
+    { cx: -26, cz: -90, W: 42, D: 11, H: 7.2 },
+    { cx:  26, cz: -90, W: 42, D: 11, H: 7.2 }
+  ];
+
+  blocks.forEach(b => {
+    box(b.W, 0.5, b.D, M.concrete, b.cx, -0.25, b.cz);
+    box(b.W, b.H, 0.4, M.brick, b.cx, b.H / 2, b.cz - b.D / 2);
+    box(0.4, b.H, b.D, M.brick, b.cx - b.W / 2, b.H / 2, b.cz);
+    box(0.4, b.H, b.D, M.brick, b.cx + b.W / 2, b.H / 2, b.cz);
+
+    // window strips on the front
+    for (const y of [1.6, 4.2, 6.6]) {
+      box(b.W - 3, 1.0, 0.34, M.brick, b.cx, y, b.cz + b.D / 2);
+      box(b.W - 4, 0.85, 0.07, M.glass, b.cx, y, b.cz + b.D / 2 + 0.01, scene, false);
+    }
+
+    gableRoof(b.W + 2, b.D + 4, 2.2, b.H + 0.25, b.cz, M.roof);
+  });
+}
+
+function buildGate() {
+  const gz = 82;
+
+  for (const sx of [-1, 1]) {
+    box(1.7, 6.6, 1.7, M.brick, sx * 7.6, 3.3, gz);
+    box(2.1, 0.42, 2.1, M.white, sx * 7.6, 6.7, gz, scene, false);
+  }
+
+  box(17.4, 1.25, 1.05, M.white, 0, 6.85, gz, scene, false);
+
+  makeSign('TTC MUHANGA', 12, 1.8, 0, 6.85, gz + 0.58, 0);
+}
+
+function buildFlag() {
+  const g = new THREE.Group();
+  g.position.set(0, 0, 26);
+
+  cyl(0.13, 0.17, 15, 10, M.metal, 0, 7.5, 0, g);
+  cyl(0.6, 0.8, 0.5, 12, M.concrete, 0, 0.25, 0, g, false);
+
+  const finial = new THREE.Mesh(new THREE.SphereGeometry(0.24, 10, 8), M.yellow);
+  finial.position.set(0, 15.15, 0);
+  g.add(finial);
+
+  const flagTex = makeTex((ctx, w, h) => {
+    ctx.fillStyle = '#00A1DE'; ctx.fillRect(0, 0, w, h * 0.5);
+    ctx.fillStyle = '#FAD201'; ctx.fillRect(0, h * 0.5, w, h * 0.25);
+    ctx.fillStyle = '#20603D'; ctx.fillRect(0, h * 0.75, w, h * 0.25);
+
+    const cx = w * 0.75, cy = h * 0.25, r = h * 0.115;
+
+    ctx.fillStyle = '#E5BE01';
+    ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill();
+
+    ctx.strokeStyle = '#E5BE01';
+    ctx.lineWidth = r * 0.26;
+    ctx.lineCap = 'round';
+
+    for (let i = 0; i < 24; i++) {
+      const a = (i / 24) * Math.PI * 2;
+      ctx.beginPath();
+      ctx.moveTo(cx + Math.cos(a) * r * 1.3, cy + Math.sin(a) * r * 1.3);
+      ctx.lineTo(cx + Math.cos(a) * r * 1.95, cy + Math.sin(a) * r * 1.95);
+      ctx.stroke();
+    }
+  }, 256, 128);
+
+  const geo = new THREE.PlaneGeometry(5.2, 2.6, 20, 10);
+  const mat = new THREE.MeshStandardMaterial({
+    map: flagTex, side: THREE.DoubleSide, roughness: 0.85
+  });
+
+  const flag = new THREE.Mesh(geo, mat);
+  flag.position.set(2.7, 13.4, 0);
+  flag.castShadow = false;
+  g.add(flag);
+
+  flagGeo = geo;
+  flagBase = geo.attributes.position.array.slice();
+
+  scene.add(g);
+}
+
+function buildCourt() {
+  const courtTex = makeTex((ctx, w, h) => {
+    ctx.fillStyle = '#b4632f'; ctx.fillRect(0, 0, w, h);
+    ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 7;
+    ctx.strokeRect(22, 22, w - 44, h - 44);
+    ctx.beginPath(); ctx.moveTo(w / 2, 22); ctx.lineTo(w / 2, h - 22); ctx.stroke();
+    ctx.beginPath(); ctx.arc(w / 2, h / 2, 62, 0, Math.PI * 2); ctx.stroke();
+    ctx.strokeRect(22, h / 2 - 78, 96, 156);
+    ctx.strokeRect(w - 118, h / 2 - 78, 96, 156);
+    ctx.beginPath(); ctx.arc(118, h / 2, 46, 0, Math.PI * 2); ctx.stroke();
+    ctx.beginPath(); ctx.arc(w - 118, h / 2, 46, 0, Math.PI * 2); ctx.stroke();
+  }, 512, 512);
+
+  const court = new THREE.Mesh(
+    new THREE.PlaneGeometry(32, 21),
+    new THREE.MeshStandardMaterial({ map: courtTex, roughness: 0.9 })
+  );
+  court.rotation.x = -Math.PI / 2;
+  court.position.set(0, 0.19, 52);
+  court.receiveShadow = true;
+  scene.add(court);
+
+  // simple hoops
+  function hoop(x, dir) {
+    const g = new THREE.Group();
+    g.position.set(x, 0, 52);
+
+    cyl(0.14, 0.14, 4.4, 8, M.metal, 0, 2.2, 0, g);
+    box(0.14, 1.2, 0.14, M.metal, 0, 3.4, dir * 0.35, g, false);
+    box(1.8, 1.15, 0.1, M.white, 0, 4.0, dir * 0.75, g, false);
+
+    const rim = new THREE.Mesh(
+      new THREE.TorusGeometry(0.3, 0.05, 6, 16),
+      M.darkWood
+    );
+    rim.rotation.x = Math.PI / 2;
+    rim.position.set(0, 3.4, dir * 1.0);
+    g.add(rim);
+
+    scene.add(g);
+  }
+
+  hoop(-15.3, 1);
+  hoop(15.3, -1);
+}
+
+function buildTrees() {
+  const spots = [];
+  const avoid = [
+    { x0: -40, x1: 40, z0: -58, z1: -34 },   // academic
+    { x0: -56, x1: -28, z0: 2, z1: 22 },     // lab
+    { x0: 28, x1: 58, z0: 2, z1: 22 },       // dining
+    { x0: -72, x1: -44, z0: 44, z1: 66 },    // admin
+    { x0: -50, x1: -2, z0: -100, z1: -78 },  // dorm L
+    { x0: 2, x1: 50, z0: -100, z1: -78 },    // dorm R
+    { x0: -20, x1: 20, z0: 38, z1: 66 },     // court
+    { x0: -12, x1: 12, z0: -10, z1: 92 },    // avenue
+    { x0: -12, x1: 12, z0: 70, z1: 94 }      // gate
+  ];
+
+  let attempts = 0;
+
+  while (spots.length < 90 && attempts < 800) {
+    attempts++;
+
+    const x = (Math.random() - 0.5) * 260;
+    const z = (Math.random() - 0.5) * 280 - 10;
+
+    if (avoid.some(a => x > a.x0 && x < a.x1 && z > a.z0 && z < a.z1)) continue;
+
+    spots.push([x, z, 0.7 + Math.random() * 0.7]);
+  }
+
+  const N = spots.length;
+
+  const trunkGeo = new THREE.CylinderGeometry(0.26, 0.46, 4.2, 6);
+  const trunk = new THREE.InstancedMesh(trunkGeo, M.darkWood, N);
+  trunk.castShadow = !IS_TOUCH;
+  trunk.receiveShadow = true;
+
+  const leafGeo = new THREE.SphereGeometry(1.55, 6, 5);
+  const leaves = new THREE.InstancedMesh(leafGeo, M.foliage, N * 3);
+  leaves.castShadow = !IS_TOUCH;
+  leaves.receiveShadow = true;
+
+  const dummy = new THREE.Object3D();
+  let li = 0;
+
+  spots.forEach(([x, z, s], i) => {
+    dummy.position.set(x, 2.1 * s, z);
+    dummy.scale.set(s, s, s);
+    dummy.rotation.set(0, Math.random() * Math.PI, 0);
+    dummy.updateMatrix();
+    trunk.setMatrixAt(i, dummy.matrix);
+
+    for (let k = 0; k < 3; k++) {
+      dummy.position.set(
+        x + (Math.random() - 0.5) * 1.6 * s,
+        (4.1 + Math.random() * 1.5) * s,
+        z + (Math.random() - 0.5) * 1.6 * s
+      );
+      const ls = s * (0.75 + Math.random() * 0.5);
+      dummy.scale.set(ls, ls * 0.9, ls);
+      dummy.rotation.set(Math.random(), Math.random() * 3, Math.random());
+      dummy.updateMatrix();
+      leaves.setMatrixAt(li++, dummy.matrix);
+    }
+  });
+
+  trunk.instanceMatrix.needsUpdate = true;
+  leaves.instanceMatrix.needsUpdate = true;
+
+  scene.add(trunk, leaves);
+}
+
+/* ============================================================
+   CINEMATIC CAMERA + LOOP
+   ============================================================ */
+const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
+
+window.addEventListener('pointermove', e => {
+  mouse.tx = (e.clientX / innerWidth - 0.5) * 2;
+  mouse.ty = (e.clientY / innerHeight - 0.5) * 2;
+}, { passive: true });
+
+let visible = true;
+
+const heroObserver = new IntersectionObserver(entries => {
+  visible = entries[0].isIntersecting;
+}, { threshold: 0.02 });
+
+heroObserver.observe(heroEl);
+
+function resize() {
+  if (!renderer) return;
+
+  const w = heroEl.clientWidth || innerWidth;
+  const h = heroEl.clientHeight || innerHeight;
+
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, DPR_CAP));
+  renderer.setSize(w, h, false);
+
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+}
+
+window.addEventListener('resize', resize);
+
+if ('ResizeObserver' in window) {
+  new ResizeObserver(resize).observe(heroEl);
+}
+
+const lookAt = new THREE.Vector3();
+
+function animate() {
+  requestAnimationFrame(animate);
+
+  if (!renderer || !visible || document.hidden) return;
+
+  const dt = Math.min(clock.getDelta(), 0.05);
+  const time = clock.elapsedTime;
+
+  /* flag wave */
+  if (flagGeo) {
+    const pos = flagGeo.attributes.position.array;
+
+    for (let i = 0; i < pos.length; i += 3) {
+      const x = flagBase[i];
+      const y = flagBase[i + 1];
+      const anchor = (x + 2.6) / 5.2;
+      const wave =
+        Math.sin(x * 1.6 + time * 5.5) * 0.32 +
+        Math.sin(y * 2.2 + time * 4.2) * 0.08;
+
+      pos[i + 2] = wave * anchor;
+    }
+
+    flagGeo.attributes.position.needsUpdate = true;
+  }
+
+  /* smooth mouse */
+  mouse.x += (mouse.tx - mouse.x) * 0.045;
+  mouse.y += (mouse.ty - mouse.y) * 0.045;
+
+  /* camera */
+  if (REDUCED) {
+    camera.position.set(115, 64, 132);
+    lookAt.set(0, 4, -8);
+  } else {
+    const angle = time * 0.032;
+    const radius = 138 + Math.sin(time * 0.09) * 14;
+    const height = 58 + Math.sin(time * 0.065) * 8;
+
+    const px = Math.cos(angle) * radius + mouse.x * 10;
+    const pz = Math.sin(angle) * radius * 0.82 - 8;
+    const py = height + mouse.y * -5;
+
+    camera.position.set(px, py, pz);
+
+    lookAt.set(
+      Math.sin(time * 0.045) * 6,
+      5.5 + Math.sin(time * 0.07) * 1.4,
+      -8 + Math.cos(time * 0.04) * 5
+    );
+  }
+
+  camera.lookAt(lookAt);
+
+  renderer.render(scene, camera);
+}
+
+/* boot */
+initThree();
+
+/* ============================================================
+   UI: HEADER SCROLL STATE
+   ============================================================ */
+const header = document.getElementById('siteHeader');
+
+function onScroll() {
+  header.classList.toggle('scrolled', window.scrollY > 30);
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+/* ============================================================
+   UI: SIGN-IN MODAL
+   ============================================================ */
+const modal       = document.getElementById('signinModal');
+const stepRole    = document.getElementById('stepRole');
+const stepLogin   = document.getElementById('stepLogin');
+const selIco      = document.getElementById('selIco');
+const selName     = document.getElementById('selName');
+const selDesc     = document.getElementById('selDesc');
+const selBox      = document.getElementById('selectedRoleBox');
+const footRole    = document.getElementById('footRole');
+const signinForm  = document.getElementById('signinForm');
+const signinBtn   = document.getElementById('signinBtn');
+const staffName   = document.getElementById('staffName');
+const staffPin    = document.getElementById('staffPin');
+
+let selectedRole = null;
+
+const ROLE_INFO = {
+  admin: {
+    ico: '📊',
+    name: 'Administrator',
+    desc: 'School leadership · dashboard & reports'
+  },
+  gatekeeper: {
+    ico: '🚪',
+    name: 'Gatekeeper',
+    desc: 'Gate staff · check-in & check-out'
+  }
+};
+
+function openModal(presetRole) {
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  if (presetRole && ROLE_INFO[presetRole]) {
+    showLogin(presetRole);
+  } else {
+    showRole();
+  }
+
+  setTimeout(() => {
+    if (presetRole) staffName.focus();
+    else modal.querySelector('.role-card')?.focus();
+  }, 260);
+}
+
+function closeModal() {
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(() => {
+    showRole();
+    signinForm.reset();
+    signinBtn.disabled = false;
+    signinBtn.textContent = 'Sign in';
+  }, 260);
+}
+
+function showRole() {
+  stepRole.classList.remove('hidden');
+  stepLogin.classList.add('hidden');
+  selectedRole = null;
+}
+
+function showLogin(role) {
+  selectedRole = role;
+  const info = ROLE_INFO[role];
+
+  selIco.textContent = info.ico;
+  selName.textContent = info.name;
+  selDesc.textContent = info.desc;
+  footRole.textContent = info.name;
+
+  selBox.classList.toggle('admin', role === 'admin');
+
+  stepRole.classList.add('hidden');
+  stepLogin.classList.remove('hidden');
+}
+
+/* open triggers */
+document.querySelectorAll('[data-open-signin]').forEach(el => {
+  el.addEventListener('click', e => {
+    e.preventDefault();
+    openModal(el.dataset.role || null);
+  });
+});
+
+/* close triggers */
+document.querySelectorAll('[data-close-modal]').forEach(el => {
+  el.addEventListener('click', closeModal);
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+});
+
+/* role cards */
+document.querySelectorAll('.role-card').forEach(card => {
+  card.addEventListener('click', () => {
+    showLogin(card.dataset.role);
+    setTimeout(() => staffName.focus(), 120);
+  });
+});
+
+document.getElementById('backToRole').addEventListener('click', showRole);
+
+/* submit */
+signinForm.addEventListener('submit', e => {
+  e.preventDefault();
+
+  if (!staffName.value.trim() || !staffPin.value.trim()) {
+    signinForm.reportValidity();
+    return;
+  }
+
+  if (!selectedRole) {
+    showRole();
+    return;
+  }
+
+  signinBtn.disabled = true;
+  signinBtn.textContent = 'Signing in…';
+
+  try {
+    sessionStorage.setItem('inzira_role', selectedRole);
+    sessionStorage.setItem('inzira_staff', staffName.value.trim());
+  } catch (err) { /* storage may be blocked */ }
+
+  setTimeout(() => {
+    window.location.href =
+      selectedRole === 'admin' ? 'admin.html' : 'gatekeeper.html';
+  }, 550);
+});
+
+/* ============================================================
+   UI: REVEAL ON SCROLL
+   ============================================================ */
+(function reveal() {
+  const els = document.querySelectorAll('[data-reveal]');
+
+  if (!('IntersectionObserver' in window) || REDUCED) {
+    els.forEach(el => el.classList.add('in'));
+    return;
+  }
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  els.forEach(el => io.observe(el));
+})();
+
+/* ============================================================
+   UI: YEAR
+   ============================================================ */
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
